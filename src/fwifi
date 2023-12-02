@@ -1,5 +1,5 @@
 #!/bin/bash
-# FWIFI
+# FWIFI [F*UCK WI-FI]
 # FWIFI is a Bash script designed to perform a series of penetration tests on Wi-Fi networks.
 # Github : https://github.com/rofidoang03/FWIFI
 
@@ -36,7 +36,6 @@ if [[ -z "$bssid" ]]; then
     echo "BSSID cannot be empty."
     exit 1
 fi
-# Validating BSSID format
 if ! [[ $bssid =~ ^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$ ]]; then
     echo "Invalid BSSID format. Please enter a BSSID in the format XX:XX:XX:XX:XX:XX."
     exit 1
