@@ -1,5 +1,6 @@
 #!/bin/bash
 
+clear
 apt-get update -y 
 apt-get install wget gzip
 mkdir wordlists
@@ -8,7 +9,7 @@ wget https://github.com/praetorian-inc/Hob0Rules/raw/master/wordlists/rockyou.tx
 gzip -d rockyou.txt.gz
 cd ../src
 chmod +x fwifi
-mv fwifi /usr/bin/bash
+mv fwifi /usr/bin/
 echo ""
 echo "Installation complete."
 echo "To run FWIFI, type the command 'fwifi'."
