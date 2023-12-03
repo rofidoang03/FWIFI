@@ -1,7 +1,18 @@
 #!/bin/bash
-# FWIFI [F*UCK WI-FI]
-# FWIFI adalah skrip Bash yang dirancang untuk melakukan serangkaian tes penetrasi pada jaringan Wi-Fi.
+#---------------------------------------------------------------------------------------------------------------------------
+#
+# Nama script : FWIFI [F*UCK WI-FI]
+# Deskripsi script : FWIFI adalah skrip Bash yang dirancang untuk melakukan serangkaian tes penetrasi pada jaringan Wi-Fi.
+# 
+#---------------------------------------------------------------------------------------------------------------------------
+#
 # Github : https://github.com/rofidoang03/FWIFI
+#
+#---------------------------------------------------------------------------------------------------------------------------
+#
+#
+#
+#
 
 clear
 if [[ $EUID -ne 0 ]]; then
