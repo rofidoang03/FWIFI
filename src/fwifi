@@ -62,9 +62,6 @@ fi
 echo ""
 handshakes=$(tshark -r "$file_pcap" -Y "eapol" -T fields -e wlan.bssid -e wlan.da -e wlan.sa -e eapol.keydes.type -E occurrence=f | wc -l)
 if [[ $handshakes -gt 0 ]]; then
-    echo ""
-    echo "File '$file_pcap' contains $handshakes handshake(s) that can be cracked with aircrack-ng."
-    echo ""
     aircrack-ng -w "wordlists/rockyou.txt" "$output_file-01.cap"
     exit 0
 else
