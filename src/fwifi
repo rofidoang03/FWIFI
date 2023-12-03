@@ -62,22 +62,7 @@ fi
 echo ""
 handshakes=$(tshark -r "$file_pcap" -Y "eapol" -T fields -e wlan.bssid -e wlan.da -e wlan.sa -e eapol.keydes.type -E occurrence=f | wc -l)
 if [[ $handshakes -gt 0 ]]; then
-    read -p "Apakah Anda ingin menggunakan wordlist default (rockyou.txt)? [Y/n] " use_default_wordlist
-    if [[ $use_default_wordlist == "n" || $use_default_wordlist == "N" ]]; then
-        read -p "Masukkan nama wordlist kustom: " custom_wordlist
-        if [[ -z "$custom_wordlist" ]]; then
-            echo "Wordlist kustom tidak boleh kosong."
-            exit 1
-        elif [ ! -f "$custom_wordlist" ]; then
-            echo "Wordlist kustom '$custom_wordlist' tidak ditemukan."
-            exit 1
-        fi
-        wordlist_option="-w $custom_wordlist"
-    else
-        wordlist_option="-w wordlists/rockyou.txt"
-    fi
-    aircrack-ng $wordlist_option "$output_file-01.cap"
-    # aircrack-ng -w "wordlists/rockyou.txt" "$output_file-01.cap"
+    aircrack-ng -w "wordlists/rockyou.txt" "$output_file-01.cap"
     exit 0
 else
     echo ""
