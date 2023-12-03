@@ -1,7 +1,7 @@
 #!/bin/bash
 #---------------------------------------------------------------------------------------------------------------------------
 #
-# Nama script : FWIFI [F*UCK WI-FI]
+# Nama script : FWIFI 
 # Deskripsi script : FWIFI adalah skrip Bash yang dirancang untuk melakukan serangkaian tes penetrasi pada jaringan Wi-Fi.
 # 
 #---------------------------------------------------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ echo "    | \_   _____/  \    /  \   \_   _____/|   |   |    "
 echo "    |  |    __) \   \/\/   /   ||    __)  |   |   |    "
 echo "    |  |     \   \        /|   ||     \   |   |   |    "
 echo "    |  \___  /    \__/\  / |___|\___  /   |___|   |    "
-echo "    |      \/          \/           \/ F*CK WI-FI |    "
+echo "    |      \/          \/           \/            |    "
 echo "    |       https://github.com/rofidoang03/fwifi  |    "
 echo "    +---------------------------------------------+    "
 echo ""
@@ -75,7 +75,7 @@ handshakes=$(tshark -r "$file_pcap" -Y "eapol" -T fields -e wlan.bssid -e wlan.d
 if [[ $handshakes -gt 0 ]]; then
     aircrack-ng -w "wordlists/rockyou.txt" "$output_file-01.cap"
     echo ""
-    echo "[F*CK WIFI] 'Semoga harimu menyenangkan' [F*CK WIFI]"
+    echo "Terimakasih telah menggunakan script sederhana kami :)"
     echo ""
     exit 0
 else
