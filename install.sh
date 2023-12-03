@@ -2,7 +2,7 @@
 
 clear
 apt-get update -y 
-apt-get install wget gzip
+apt-get install wget gzip xterm
 mkdir wordlists
 cd wordlists
 wget https://github.com/praetorian-inc/Hob0Rules/raw/master/wordlists/rockyou.txt.gz
