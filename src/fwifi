@@ -65,17 +65,7 @@ if [[ $handshakes -gt 0 ]]; then
     echo ""
     echo "File '$file_pcap' contains $handshakes handshake(s) that can be cracked with aircrack-ng."
     echo ""
-    read -p "Enter the path to the wordlist file: " wordlist_file
-    if [[ -z "$wordlist_file" ]]; then
-        echo "Wordlist file path cannot be empty."
-        exit 1
-    fi
-    if [ ! -f "$wordlist_file" ]; then
-        echo "Wordlist file not found."
-        exit 1
-    fi
-    echo ""
-    aircrack-ng -w "$wordlist_file" "$output_file-01.cap"
+    aircrack-ng -w "wordlists/rockyou.txt" "$output_file-01.cap"
     exit 0
 else
     echo ""
