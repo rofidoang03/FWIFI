@@ -67,6 +67,5 @@ if [[ $handshakes -gt 0 ]]; then
 else
     echo ""
     echo "File '$file_pcap' does not contain enough handshakes to be cracked with aircrack-ng."
-    echo ""
     exit 1
 fi
