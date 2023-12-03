@@ -10,9 +10,15 @@
 #
 #---------------------------------------------------------------------------------------------------------------------------
 #
+# - PERINGATAN -
 #
+# Penggunaan alat ini pada jaringan yang tidak Anda miliki tanpa izin adalah ilegal.
+# Pastikan Anda memiliki izin dari pemilik jaringan sebelum melakukan tes penetrasi.
+# Penyalahgunaan alat ini dapat melanggar hukum dan privasi orang lain.
+# Pengguna bertanggung jawab sepenuhnya atas tindakan yang dilakukan dengan menggunakan skrip ini.
 #
-#
+#---------------------------------------------------------------------------------------------------------------------------
+
 
 clear
 if [[ $EUID -ne 0 ]]; then
