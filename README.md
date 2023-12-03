@@ -1,3 +1,3 @@
-# FWIFI
+# FWIFI [F*CK WIFI]
 
-FWIFI is a Bash script designed to perform a series of penetration tests on Wi-Fi networks.
+FWIFI adalah skrip Bash yang dirancang untuk melakukan serangkaian tes penetrasi pada jaringan Wi-Fi.
