@@ -3,7 +3,7 @@
 clear
 apt-get update -y 
 apt-get install wget gzip xterm
-mkdir wordlists file_pcap
+mkdir wordlists pcap_file
 cd wordlists
 wget https://github.com/praetorian-inc/Hob0Rules/raw/master/wordlists/rockyou.txt.gz
 gzip -d rockyou.txt.gz
