@@ -23,6 +23,7 @@
 clear
 if [[ $EUID -ne 0 ]]; then
     echo "Run as root."
+    echo ""
     exit 1
 fi
 echo ""
@@ -39,10 +40,12 @@ echo ""
 read -p "Enter the wireless interface name (example: wlan0): " interface
 if [[ -z "$interface" ]]; then
     echo "Wireless interface name cannot be empty."
+    echo ""
     exit 1
 fi
 if ! iwconfig "$interface" >> /dev/null 2>&1; then
     echo "Invalid wireless interface. Please provide a valid wireless interface name."
+    echo ""
     exit 1
 fi
 airmon-ng check kill ; airmon-ng start "$interface"
@@ -51,19 +54,23 @@ echo ""
 read -p "Enter the BSSID of the target network: " bssid
 if [[ -z "$bssid" ]]; then
     echo "BSSID cannot be empty."
+    echo ""
     exit 1
 fi
 if ! [[ $bssid =~ ^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$ ]]; then
     echo "Invalid BSSID format. Please enter the BSSID in the format XX:XX:XX:XX:XX:XX."
+    echo ""
     exit 1
 fi
 read -p "Enter the Channel number: " channel
 if [[ -z "$channel" ]]; then
     echo "Channel cannot be empty."
+    echo ""
     exit 1
 fi
 if ! [[ "$channel" =~ ^[0-9]+$ ]]; then
     echo "Invalid Channel. Please enter a valid Channel number."
+    echo ""
     exit 1
 fi
 iwconfig "$interface" channel "$channel"
@@ -85,5 +92,6 @@ if [[ $handshakes -gt 0 ]]; then
 else
     echo ""
     echo "File '$pcap_file' does not have enough handshakes to be cracked with aircrack-ng."
+    echo ""
     exit 1
 fi
