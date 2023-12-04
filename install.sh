@@ -11,6 +11,5 @@ cd ../src
 chmod +x fwifi
 mv fwifi /usr/bin/
 echo ""
-echo "FWIFI berhasil diinstal."
-echo "Untuk menjalankan FWIFI, ketikkan perintah 'fwifi'."
+echo "Installation completed."
 echo ""
