@@ -1,9 +1,9 @@
 #!/bin/bash
 #---------------------------------------------------------------------------------------------------------------------------
 #
-# Script Name: FWIFI
-# Script Description: FWIFI is a Bash script designed to perform a series of penetration tests on Wi-Fi networks.
-# Script Author: rofidoang03
+# Name : FWIFI
+# Description : FWIFI is a Bash script designed to perform a series of penetration tests on Wi-Fi networks.
+# Author: rofidoang03
 #
 #---------------------------------------------------------------------------------------------------------------------------
 #
