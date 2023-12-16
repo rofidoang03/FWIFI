@@ -2,7 +2,7 @@
 
 sanitize_input() {
     local input="${1}"
-    input=$(echo "${input{" | xargs)
+    input=$(echo "${input}" | xargs)
     echo "${input}"
 }
 
